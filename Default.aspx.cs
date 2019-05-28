@@ -18,6 +18,9 @@ namespace BHHC_Standard
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            //If page has already loaded, do not display data a second time
+            if (IsPostBack) return;
+
             var existingRationales = GetExistingRationales();
             if(existingRationales.Count > 0)
                 DisplayRatioinales(existingRationales);
@@ -27,14 +30,7 @@ namespace BHHC_Standard
         {
             if (existingRationales.Count > 0)
             {
-                //DataTable gridData = new DataTable();
-                //gridData.Columns.Add("Rationale");
-
-                //foreach (var listItem in existingRationales)
-                //{
-                //    gridData.Rows.Add(listItem);
-                //}
-
+                //Add list of strings to GridView control
                 dgRationales.DataSource = existingRationales;
                 dgRationales.DataBind();
                 return;
@@ -52,15 +48,17 @@ namespace BHHC_Standard
 
         private List<string> GetExistingRationales()
         {
-            var service = new BHHCService();
-            return service.GetRationales();
+            return ServiceLocator.Get<IBHHCService>().GetRationales();
+            //var service = new BHHCService();
+            //return service.GetRationales();
         }
         
         [WebMethod(EnableSession = true)]
         public static void AddRationale(string rationale)
         {
-            var service = new BHHCService();
-            service.AddRationale(rationale);
+            ServiceLocator.Get<IBHHCService>().AddRationale(rationale);
+            //var service = new BHHCService();
+            //service.AddRationale(rationale);
         }
     }
 }
