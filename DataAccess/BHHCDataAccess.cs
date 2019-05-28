@@ -8,15 +8,12 @@ using System.Web;
 
 namespace BHHC_Standard.DataAccess
 {
-    public class BHHCDataAccess
+    public class BHHCDataAccess : BaseDataAccess, IBHHCDataAccess
     {
         List<string> allRationales;
 
         public void AddRationale(string new_rationale)
         {
-            //var existingRationales = GetExistingRationales();
-            //existingRationales.Add(rationale);
-            //allRationales = existingRationales;
             var rationales = new List<string>();
 
             var xs = new System.Xml.Serialization.XmlSerializer(typeof(List<string>));
